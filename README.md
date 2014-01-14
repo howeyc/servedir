@@ -1,7 +1,7 @@
 servedir
 ========
 
-A Go Language program serve the current directory over HTTP
+A Go Language program that serves the current directory over HTTP
 
 Installation
 -----------
@@ -19,4 +19,4 @@ Command line flags are available to change the port and to listen on localhost o
 Why
 -----------
 
-The extremely basic file http.FileServer and http.Dir does not sort the directory listing and there is no file size information displayed like listings.
+The extremely basic file http.FileServer and http.Dir do not sort the directory listing and there is no file size information displayed in the listing.
