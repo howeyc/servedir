@@ -48,19 +48,19 @@ func BrowseDirectory(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<html><head><title>Index of %s</title></head>\n", upath)
 		fmt.Fprintln(w, "<body>")
 		fmt.Fprintf(w, "<h1>Index of %s</h1>\n<hr>\n", upath)
-		fmt.Fprintln(w, "<table>")
-		fmt.Fprintln(w, "<tr><th>Name</th><th>Last Modified</th><th>Size</th></tr>")
+		fmt.Fprintln(w, "<table width=\"100%\">")
+		fmt.Fprintln(w, "<tr><th width=\"60%\" align=\"left\">Name</th><th width=\"30%\" align=\"left\">Last Modified</th><th width=\"10%\" align=\"left\">Size</th></tr>")
 		if upath != "." {
 			parent, _ := filepath.Split(upath[:len(upath)-1])
 			fmt.Fprintf(w, "<tr><td><a href=\"/%s\">Parent Directory</a></td><td></td><td> - </td></tr>", parent)
 		}
 		for _, info := range entries {
 			hrSize := HumanReadableSize(info.Size())
-			dir := ""
 			if info.IsDir() {
-				dir = "/"
+				fmt.Fprintf(w, "<tr><td><a href=\"%s/\">%s/</a></td><td>%s</td><td>%s</td></tr>", info.Name(), info.Name(), info.ModTime().Format("2006-01-02 15:04:05 -0700"), " - ")
+			} else {
+				fmt.Fprintf(w, "<tr><td><a href=\"%s\">%s</a></td><td>%s</td><td>%s</td></tr>", info.Name(), info.Name(), info.ModTime().Format("2006-01-02 15:04:05 -0700"), hrSize.String())
 			}
-			fmt.Fprintf(w, "<tr><td><a href=\"%s\">%s</a></td><td>%s</td><td>%s</td></tr>", info.Name()+dir, info.Name()+dir, info.ModTime().Format("2006-01-02 15:04:05 -0700"), hrSize.String())
 		}
 		fmt.Fprintln(w, "</table><hr>Golang <a href=\"http://github.com/howeyc/servedir\">servedir</a></body></html>")
 	} else {
